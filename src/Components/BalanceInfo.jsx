@@ -10,6 +10,10 @@ function BalanceInfo() {
   const handlenext = () => {
     navigate("/");
   };
+  const handleNewTransaction = () => {
+    navigate("/transactions");
+  };
+
   return (
     <Box
       display={"flex"}
@@ -35,6 +39,13 @@ function BalanceInfo() {
         </Typography>
         <Box display={"flex"} justifyContent={"center"}>
           <ButtonCompo onClick={handlenext} text="Log Out" />
+          <Box pl={1}>
+            <ButtonCompo
+              type="submit"
+              onClick={handleNewTransaction}
+              text="Second Transaction"
+            />
+          </Box>
         </Box>
       </Box>
     </Box>

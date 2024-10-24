@@ -7,9 +7,13 @@ import ButtonCompo from "./ButtonCompo";
 function Final() {
   const navigate = useNavigate();
 
-  const handlenext = () => {
+  const handleNext = () => {
     navigate("/");
   };
+  const handleNewTransaction = () => {
+    navigate("/transactions");
+  };
+
   return (
     <Box
       display={"flex"}
@@ -31,7 +35,14 @@ function Final() {
       >
         <HeadSaction title={"Final Meassge"} />
         <Box display={"flex"} justifyContent={"center"}>
-          <ButtonCompo type="submit" onClick={handlenext} text="Log Out" />
+          <ButtonCompo type="submit" onClick={handleNext} text="Log Out" />
+          <Box pl={1}>
+            <ButtonCompo
+              type="submit"
+              onClick={handleNewTransaction}
+              text="Second Transaction"
+            />
+          </Box>
         </Box>
       </Box>
     </Box>

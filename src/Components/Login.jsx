@@ -4,28 +4,52 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import HeadSaction from "./HeadSaction";
 import InputField from "./InputField";
+import { useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+import Api from "../api";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { transactionType } = useContext(AuthContext);
+  const api = new Api();
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(username);
-    console.log("====password", password);
-
-    setTimeout(() => {
-      setLoading(false);
-      if (transactionType === "Balance Information") {
-        navigate("/balanceInfo");
-      } else {
-        navigate("/amount");
-      }
-    }, 1000);
+    const obj = { mobileNo, pin };
+    api
+      .postAPI(`user/login`, obj)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.data.token);
+          const decoded = jwtDecode(response.data.data.token);
+          if (decoded.Role === "CUSTOMER") {
+            if (transactionType === "Balance Information") {
+              navigate("/balanceInfo");
+            } else {
+              navigate("/amount");
+            }
+          } else {
+            navigate("/customer");
+          }
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error",
+          text: "Error create order data, please contact to support...!",
+          icon: "error",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -53,15 +77,15 @@ const Login = () => {
         <InputField
           label="Phone Number"
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={mobileNo}
+          onChange={(e) => setMobileNo(e.target.value)}
           inputProps={{ maxLength: 10 }}
         />
         <InputField
           label="Pin"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={pin}
+          onChange={(e) => setPin(e.target.value)}
           inputProps={{ maxLength: 4 }}
         />
         <Box display={"flex"} justifyContent={"center"}>
