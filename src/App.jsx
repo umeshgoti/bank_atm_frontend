@@ -14,7 +14,6 @@ export const AuthContext = createContext();
 
 const App = () => {
   const [transactionType, setTransactionType] = useState(null);
-
   return (
     <AuthContext.Provider value={{ transactionType, setTransactionType }}>
       <Router>

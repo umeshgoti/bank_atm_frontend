@@ -1,7 +1,16 @@
 import { TextField } from "@mui/material";
 import React from "react";
 
-function InputField({ label, value, onChange, inputProps, type }) {
+function InputField({
+  label,
+  value,
+  onChange,
+  inputProps,
+  type,
+  error,
+  helperText,
+  register,
+}) {
   return (
     <TextField
       label={label}
@@ -9,6 +18,7 @@ function InputField({ label, value, onChange, inputProps, type }) {
       type={type}
       onChange={onChange}
       required
+      {...register}
       inputProps={inputProps}
       size="small"
       sx={{

@@ -4,7 +4,7 @@ const initialState = {
     atmData: []
 };
 
-export const addAtmReducer = (state = initialState, action) => {
+export const addTransactionReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_ATM_REQUEST:
             return {
@@ -26,4 +26,4 @@ export const addAtmReducer = (state = initialState, action) => {
     }
 };
 
-export default addAtmReducer;
+export default addTransactionReducer;

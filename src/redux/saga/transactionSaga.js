@@ -4,21 +4,21 @@ import Api from "../../api";
 import { FETCH_TRANSACTION_REQUEST } from "../action/transactionAction";
 
 const api = new Api();
-function* addAtmData(action) {
-    try {
-        const authToken = localStorage.getItem("token");
-        const response = yield call(api.postAPI, `api/atm`, action.payload, authToken);
-        console.log(response)
-        yield put(addAtmSuccess(response.data.data.data));
-    } catch (error) {
-        yield put(addAtmFailure(error));
-    }
-}
+// function* addAtmData(action) {
+//     try {
+//         const authToken = localStorage.getItem("token");
+//         const response = yield call(api.postAPI, `api/atm`, action.payload, authToken);
+//         console.log(response)
+//         yield put(addAtmSuccess(response.data.data.data));
+//     } catch (error) {
+//         yield put(addAtmFailure(error));
+//     }
+// }
 
 function* fetchTransactionData() {
     try {
         const authToken = localStorage.getItem("token");
-        const response = yield call(api.getAPI, `api/atm`, authToken);
+        const response = yield call(api.getAPI, `api/transactions`, authToken);
         console.log(response)
         yield put(addAtmSuccess(response.data.data.data));
     } catch (error) {
@@ -28,5 +28,5 @@ function* fetchTransactionData() {
 
 export function* addTransactionSaga() {
     yield takeLatest(FETCH_TRANSACTION_REQUEST, fetchTransactionData);
-    yield takeLatest(FETCH_ATM_REQUEST, fetchAtmData);
+    // yield takeLatest(FETCH_ATM_REQUEST, fetchAtmData);
 }

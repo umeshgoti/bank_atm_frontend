@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Box, TextField, Typography } from "@mui/material";
 import InputField from "./InputField";
 import axios from "axios";
 import TableData from "./TableData";
 import { ViewMaster } from "../ViewMaster";
+import { fetchTransactionRequest } from "../redux/action/transactionAction";
+import { useDispatch } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -22,6 +24,7 @@ function Customer() {
   const [lastName, setLastName] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [pin, setPin] = useState("");
+  const dispatch = useDispatch();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -51,6 +54,10 @@ function Customer() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchTransactionRequest());
+  }, []);
   const columns = [
     { id: "id", label: "ID", align: "center" },
     { id: "name", label: "Name", align: "left" },

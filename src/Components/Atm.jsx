@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, Box, TextField, Typography } from "@mui/material";
 import InputField from "./InputField";
-import axios from "axios";
 import TableData from "./TableData";
 import { ViewMaster } from "../ViewMaster";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addAtmRequest, fetchAtmRequest } from "../redux/action/atmAction";
 import Api from "../api";
-import Swal from "sweetalert2";
 
 const style = {
   position: "absolute",
@@ -22,88 +20,41 @@ const style = {
 
 function Atm() {
   const [open, setOpen] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [pin, setPin] = useState("");
+  const [locationName, setLocationName] = useState("");
+  const [welcomeMessage, setWelcomeMessage] = useState("");
+  const [amount, setAmount] = useState("");
   const dispatch = useDispatch();
   const api = new Api();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const token = localStorage.getItem("token");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const obj = {
-      locationName: firstName,
-      welcomeMessage: lastName,
-      amount: mobileNo,
+      locationName,
+      welcomeMessage,
+      amount,
       isActive: true,
     };
-    api
-      .postAPI(`api/atm`, obj, token)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Error",
-          text: "Error create order data, please contact to support...!",
-          icon: "error",
-        });
-      });
+    dispatch(addAtmRequest(obj));
+    handleClose();
+    setLocationName("");
+    setWelcomeMessage("");
+    setAmount("");
   };
 
   useEffect(() => {
-    console.log("called");
     dispatch(fetchAtmRequest());
   }, []);
-  const columns = [
-    { id: "id", label: "ID", align: "center" },
-    { id: "name", label: "Name", align: "left" },
-    { id: "age", label: "Age", align: "right" },
-    { id: "email", label: "Email", align: "left" },
-    { id: "status", label: "Status", align: "center" },
-  ];
 
-  const rows = [
-    {
-      id: 1,
-      name: "John Doe",
-      age: 30,
-      email: "john.doe@example.com",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      age: 25,
-      email: "jane.smith@example.com",
-      status: "Inactive",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      age: 28,
-      email: "alice.johnson@example.com",
-      status: "Active",
-    },
-    {
-      id: 4,
-      name: "Bob Brown",
-      age: 35,
-      email: "bob.brown@example.com",
-      status: "Pending",
-    },
-    {
-      id: 5,
-      name: "Charlie Green",
-      age: 22,
-      email: "charlie.green@example.com",
-      status: "Active",
-    },
+  const AtmData = useSelector((state) => state.atm.atmData);
+  console.log(AtmData);
+  const columns = [
+    { id: "locationName", label: "Location Name", align: "left" },
+    { id: "welcomeMessage", label: "Welcome Message", align: "left" },
+    { id: "amount", label: "Amount", align: "right" },
+    { id: "active", label: "Active", align: "center" },
   ];
 
   return (
@@ -112,7 +63,7 @@ function Atm() {
         Add Atm
       </Button>
       <Box mt={2}>
-        <TableData columns={columns} rows={rows} />
+        <TableData columns={columns} rows={AtmData} />
       </Box>
 
       <Modal open={open} onClose={handleClose}>
@@ -124,22 +75,22 @@ function Atm() {
             <InputField
               label="Location Name"
               fullWidth
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={locationName}
+              onChange={(e) => setLocationName(e.target.value)}
               required
             />
             <InputField
               label="Welcome Meassge"
               fullWidth
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={welcomeMessage}
+              onChange={(e) => setWelcomeMessage(e.target.value)}
               required
             />
             <InputField
               label="Amount"
               fullWidth
-              value={mobileNo}
-              onChange={(e) => setMobileNo(e.target.value)}
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
               required
             />
             {/* <InputField
