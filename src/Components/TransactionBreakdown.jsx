@@ -7,14 +7,13 @@ import ButtonCompo from "./ButtonCompo";
 
 const TransactionBreakdown = () => {
   const navigate = useNavigate();
-  const { setTransactionType } = useContext(AuthContext);
-
+  const { setTransactionType, atmId } = useContext(AuthContext);
   const handleTransactionClick = (value) => {
     setTransactionType(value);
     navigate("/login");
   };
 
-  const transactions = ["Deposits", "Withdrawals", "Balance Information"];
+  const transactions = ["DEPOSIT", "WITHDRAW", "BALANCE_INQUIRY"];
 
   return (
     <Box

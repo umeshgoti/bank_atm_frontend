@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import HeadSaction from "./HeadSaction";
 import ButtonCompo from "./ButtonCompo";
+import { useSelector } from "react-redux";
 
 function Final() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function Final() {
   const handleNewTransaction = () => {
     navigate("/transactions");
   };
-
+  const state = useSelector((state) => state.amount.amountData);
   return (
     <Box
       display={"flex"}
@@ -33,7 +34,7 @@ function Final() {
           backgroundColor: "#f5f5f5",
         }}
       >
-        <HeadSaction title={"Final Meassge"} />
+        <HeadSaction title={state} />
         <Box display={"flex"} justifyContent={"center"}>
           <ButtonCompo type="submit" onClick={handleNext} text="Log Out" />
           <Box pl={1}>

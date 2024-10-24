@@ -25,9 +25,9 @@ const Login = () => {
     api
       .postAPI(`user/login`, obj)
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("customerId", response.data.data.id);
           const decoded = jwtDecode(response.data.data.token);
           if (decoded.Role === "CUSTOMER") {
             if (transactionType === "Balance Information") {

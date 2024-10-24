@@ -9,13 +9,22 @@ import BalanceInfo from "./Components/BalanceInfo";
 import Customer from "./Components/Customer";
 import LastTransaction from "./Components/LastTransaction";
 import Atm from "./Components/Atm";
+import { fetchAtmRequest } from "./redux/action/atmAction";
+import { useDispatch } from "react-redux";
 
 export const AuthContext = createContext();
 
 const App = () => {
   const [transactionType, setTransactionType] = useState(null);
+  const [atmId, setAtmId] = useState(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAtmRequest());
+  }, []);
   return (
-    <AuthContext.Provider value={{ transactionType, setTransactionType }}>
+    <AuthContext.Provider
+      value={{ transactionType, setTransactionType, atmId, setAtmId }}
+    >
       <Router>
         {/* <Navbar /> */}
         <Routes>

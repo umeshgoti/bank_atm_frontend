@@ -7,7 +7,6 @@ function* addAtmData(action) {
     try {
         const authToken = localStorage.getItem("token");
         yield call(api.postAPI, `api/atm`, action.payload, authToken);
-        // console.log("=============response", response.data.data)
         yield put(fetchAtmRequest());
     } catch (error) {
         yield put(addAtmFailure(error));

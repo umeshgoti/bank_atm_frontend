@@ -5,7 +5,7 @@ import axios from "axios";
 import TableData from "./TableData";
 import { ViewMaster } from "../ViewMaster";
 import { fetchTransactionRequest } from "../redux/action/transactionAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -29,35 +29,11 @@ function Customer() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const obj = {
-      firstName,
-      lastName,
-      mobileNo,
-      pin,
-      role: "CUSTOMER",
-      balance: 10000,
-    };
-    try {
-      const response = await axios.post(
-        `http://localhost:8080/user/signup`,
-        obj
-      );
-      if (response.status === 200) {
-        handleClose();
-        setCustomerName("");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     dispatch(fetchTransactionRequest());
   }, []);
+
+  const state = useSelector((state) => state.transaction.transactionData);
   const columns = [
     { id: "id", label: "ID", align: "center" },
     { id: "name", label: "Name", align: "left" },
@@ -106,63 +82,9 @@ function Customer() {
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleOpen}>
-        Add Customer
-      </Button>
       <Box mt={2}>
         <TableData columns={columns} rows={rows} />
       </Box>
-
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          <Typography variant="h6" component="h2" gutterBottom>
-            Add New Customer
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <InputField
-              label="First Name"
-              fullWidth
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-            <InputField
-              label="Last Name"
-              fullWidth
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-            <InputField
-              label="Mobile Number"
-              fullWidth
-              value={mobileNo}
-              onChange={(e) => setMobileNo(e.target.value)}
-              required
-            />
-            <InputField
-              label="Pin"
-              fullWidth
-              value={pin}
-              onChange={(e) => setPin(e.target.value)}
-              required
-            />
-
-            <Box display="flex" justifyContent="space-between" mt={2}>
-              <Button type="submit" variant="contained" color="primary">
-                Submit
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleClose}
-              >
-                Close
-              </Button>
-            </Box>
-          </form>
-        </Box>
-      </Modal>
     </div>
   );
 }

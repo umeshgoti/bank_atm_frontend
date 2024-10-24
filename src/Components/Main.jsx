@@ -1,14 +1,26 @@
-import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { Box, Button, Typography, Select, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HeadSaction from "./HeadSaction";
 import ButtonCompo from "./ButtonCompo";
+import { useSelector } from "react-redux";
+import { AuthContext } from "../App";
 
-const Dashboard = () => {
+const Main = () => {
   const navigate = useNavigate();
+  const AtmData = useSelector((state) => state.atm.atmData);
+  const [selectedLocation, setSelectedLocation] = useState("");
 
   const handleClick = () => {
     navigate("/transactions");
+  };
+  const { setAtmId } = useContext(AuthContext);
+
+  const handleLocationChange = (event) => {
+    setSelectedLocation(event.target.value);
+  };
+  const handleData = (data) => {
+    setAtmId(data.id);
   };
 
   return (
@@ -30,7 +42,35 @@ const Dashboard = () => {
           backgroundColor: "#f5f5f5",
         }}
       >
-        <HeadSaction title={"Welcome to the ATM"} />
+        <Box>
+          <HeadSaction title={"Welcome to the"} />
+
+          <Select
+            value={selectedLocation}
+            onChange={handleLocationChange}
+            displayEmpty
+            fullWidth
+          >
+            <MenuItem value="">
+              <em>Select a location</em>
+            </MenuItem>
+            {AtmData.map((atm, index) => (
+              <MenuItem
+                key={index}
+                value={atm.locationName}
+                onClick={() => handleData(atm)}
+              >
+                {atm.locationName}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+        {/* <Typography variant="h6">
+          {selectedLocation
+            ? `Welcome to ${selectedLocation}`
+            : "Please select a location"}
+        </Typography> */}
+
         <Box display={"flex"} justifyContent={"center"}>
           <ButtonCompo onClick={handleClick} text="Start" />
         </Box>
@@ -39,4 +79,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Main;
