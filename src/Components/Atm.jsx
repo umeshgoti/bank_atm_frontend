@@ -44,12 +44,16 @@ function Atm() {
     setAmount("");
   };
 
+  useEffect(() => {
+    dispatch(fetchAtmRequest());
+  }, []);
+
   const AtmData = useSelector((state) => state.atm.atmData);
   const columns = [
-    { id: "locationName", label: "Location Name", align: "left" },
-    { id: "welcomeMessage", label: "Welcome Message", align: "left" },
-    { id: "amount", label: "Amount", align: "right" },
-    { id: "active", label: "Active", align: "center" },
+    { id: "locationName", label: "Location Name", align: "center" },
+    { id: "welcomeMessage", label: "Welcome Message", align: "center" },
+    { id: "amount", label: "Available Amount", align: "center" },
+    // { id: "active", label: "Active", align: "center" },
   ];
 
   return (

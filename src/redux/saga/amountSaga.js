@@ -1,4 +1,4 @@
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import Api from "../../api";
 import { ADD_AMOUNT_REQUEST, addAmountFailure, addAmountSuccess } from "../action/amountAction";
 

@@ -67,6 +67,24 @@ function Sidebar() {
             </Typography>
           </Box>
         </NavLink>
+        <NavLink
+          to="/videoAndImage"
+          style={({ isActive }) =>
+            isActive ? activeStyle : { textDecoration: "none" }
+          }
+        >
+          <Box sx={{ width: "100%", padding: "0px 0" }}>
+            <Typography
+              py={1}
+              sx={{ textTransform: "capitalize", fontSize: "18px" }}
+              variant="body1"
+              display={"flex"}
+              alignContent={"center"}
+            >
+              <Box>Video & Image</Box>
+            </Typography>
+          </Box>
+        </NavLink>
       </Box>
     </div>
   );

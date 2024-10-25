@@ -19,71 +19,27 @@ const style = {
 };
 
 function Customer() {
-  const [open, setOpen] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [pin, setPin] = useState("");
   const dispatch = useDispatch();
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     dispatch(fetchTransactionRequest());
   }, []);
 
-  const state = useSelector((state) => state.transaction.transactionData);
+  const transaction = useSelector((state) => state.transaction.transactionData);
   const columns = [
-    { id: "id", label: "ID", align: "center" },
-    { id: "name", label: "Name", align: "left" },
-    { id: "age", label: "Age", align: "right" },
-    { id: "email", label: "Email", align: "left" },
+    { id: "id", label: "Transaction ID", align: "center" },
+    { id: "customerName", label: "Customer Name", align: "left" },
+    { id: "atmLocation", label: "ATM Location", align: "left" },
+    { id: "time", label: "Transaction Time", align: "left" },
+    { id: "transactionAmount", label: "Amount", align: "right" },
+    { id: "transactionType", label: "Type", align: "center" },
     { id: "status", label: "Status", align: "center" },
-  ];
-
-  const rows = [
-    {
-      id: 1,
-      name: "John Doe",
-      age: 30,
-      email: "john.doe@example.com",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      age: 25,
-      email: "jane.smith@example.com",
-      status: "Inactive",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      age: 28,
-      email: "alice.johnson@example.com",
-      status: "Active",
-    },
-    {
-      id: 4,
-      name: "Bob Brown",
-      age: 35,
-      email: "bob.brown@example.com",
-      status: "Pending",
-    },
-    {
-      id: 5,
-      name: "Charlie Green",
-      age: 22,
-      email: "charlie.green@example.com",
-      status: "Active",
-    },
   ];
 
   return (
     <div>
       <Box mt={2}>
-        <TableData columns={columns} rows={rows} />
+        <TableData columns={columns} rows={transaction} />
       </Box>
     </div>
   );

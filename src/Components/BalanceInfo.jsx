@@ -1,11 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HeadSaction from "./HeadSaction";
 import ButtonCompo from "./ButtonCompo";
+import { AuthContext } from "../App";
+import { addAmountRequest } from "../redux/action/amountAction";
+import { useDispatch, useSelector } from "react-redux";
 
 function BalanceInfo() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handlenext = () => {
     navigate("/");
@@ -13,6 +17,19 @@ function BalanceInfo() {
   const handleNewTransaction = () => {
     navigate("/transactions");
   };
+  const { transactionType, atmId } = useContext(AuthContext);
+  const customerId = localStorage.getItem("customerId");
+  useEffect(() => {
+    const obj = {
+      customerId: customerId,
+      atmId: atmId,
+      transactionType: transactionType,
+      transactionAmount: 0,
+    };
+    dispatch(addAmountRequest(obj));
+  }, []);
+
+  const balance = useSelector((state) => state.amount.amountData);
 
   return (
     <Box
@@ -35,7 +52,7 @@ function BalanceInfo() {
       >
         <HeadSaction title={"Balance Information"} />
         <Typography variant="h6" textAlign={"center"}>
-          Your Current Balance : 20000
+          {balance}
         </Typography>
         <Box display={"flex"} justifyContent={"center"}>
           <ButtonCompo onClick={handlenext} text="Log Out" />

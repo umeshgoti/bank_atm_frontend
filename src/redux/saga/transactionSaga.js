@@ -1,7 +1,6 @@
-import { call, delay, put, takeLatest } from "redux-saga/effects";
-import { addAtmFailure, addAtmSuccess } from "../action/atmAction";
+import { call, put, takeLatest } from "redux-saga/effects";
 import Api from "../../api";
-import { FETCH_TRANSACTION_REQUEST } from "../action/transactionAction";
+import { FETCH_TRANSACTION_REQUEST, fetchTransactionFailure, fetchTransactionSuccess } from "../action/transactionAction";
 
 const api = new Api();
 // function* addAtmData(action) {
@@ -18,9 +17,9 @@ function* fetchTransactionData() {
     try {
         const authToken = localStorage.getItem("token");
         const response = yield call(api.getAPI, `api/transactions`, authToken);
-        yield put(addAtmSuccess(response.data.data));
+        yield put(fetchTransactionSuccess(response.data.data));
     } catch (error) {
-        yield put(addAtmFailure(error));
+        yield put(fetchTransactionFailure(error));
     }
 }
 

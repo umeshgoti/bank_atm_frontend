@@ -18,6 +18,7 @@ function InputField({
       type={type}
       onChange={onChange}
       required
+      fullWidth
       {...register}
       inputProps={inputProps}
       size="small"

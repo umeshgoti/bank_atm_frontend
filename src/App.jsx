@@ -11,16 +11,13 @@ import LastTransaction from "./Components/LastTransaction";
 import Atm from "./Components/Atm";
 import { fetchAtmRequest } from "./redux/action/atmAction";
 import { useDispatch } from "react-redux";
+import VideoAndImage from "./Components/VideoAndImage";
 
 export const AuthContext = createContext();
 
 const App = () => {
   const [transactionType, setTransactionType] = useState(null);
   const [atmId, setAtmId] = useState(null);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchAtmRequest());
-  }, []);
   return (
     <AuthContext.Provider
       value={{ transactionType, setTransactionType, atmId, setAtmId }}
@@ -37,6 +34,7 @@ const App = () => {
           <Route path="/customer" element={<Customer />} />
           <Route path="/lastTransaction" element={<LastTransaction />} />
           <Route path="/atm" element={<Atm />} />
+          <Route path="/videoAndImage" element={<VideoAndImage />} />
         </Routes>
       </Router>
     </AuthContext.Provider>

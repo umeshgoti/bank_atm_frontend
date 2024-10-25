@@ -1,4 +1,4 @@
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { call,  put, takeLatest } from "redux-saga/effects";
 import Api from "../../api";
 import { ADD_CUSTOMER_REQUEST, addCustomerFailure, FETCH_CUSTOMER_REQUEST, fetchCustomerFailure, fetchCustomerRequest, fetchCustomerSuccess } from "../action/customerAction";
 
@@ -16,14 +16,14 @@ function* addCustomerData(action) {
 function* fetchCustomerData() {
     try {
         const authToken = localStorage.getItem("token");
-        const response = yield call(api.getAPI, `api/atm`, authToken);
+        const response = yield call(api.getAPI, `user/getAllCustomer`, authToken);
         yield put(fetchCustomerSuccess(response.data.data));
     } catch (error) {
         yield put(fetchCustomerFailure(error));
     }
 }
 
-export function* addAtmSaga() {
+export function* addCustomerSaga() {
     yield takeLatest(ADD_CUSTOMER_REQUEST, addCustomerData);
     yield takeLatest(FETCH_CUSTOMER_REQUEST, fetchCustomerData);
 }

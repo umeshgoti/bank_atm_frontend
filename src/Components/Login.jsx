@@ -30,7 +30,6 @@ const Login = () => {
           localStorage.setItem("customerId", response.data.data.id);
           const decoded = jwtDecode(response.data.data.token);
           if (decoded.Role === "CUSTOMER") {
-            debugger;
             if (transactionType === "BALANCE_INQUIRY") {
               navigate("/balanceInfo");
             } else if (!atmId) {
