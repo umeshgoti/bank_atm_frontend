@@ -15,7 +15,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { transactionType } = useContext(AuthContext);
+  const { transactionType, atmId } = useContext(AuthContext);
   const api = new Api();
 
   const handleNext = async (e) => {
@@ -30,8 +30,15 @@ const Login = () => {
           localStorage.setItem("customerId", response.data.data.id);
           const decoded = jwtDecode(response.data.data.token);
           if (decoded.Role === "CUSTOMER") {
-            if (transactionType === "Balance Information") {
+            debugger;
+            if (transactionType === "BALANCE_INQUIRY") {
               navigate("/balanceInfo");
+            } else if (!atmId) {
+              if (decoded.Role === "ADMIN") {
+                navigate("/customer");
+              } else {
+                navigate("/");
+              }
             } else {
               navigate("/amount");
             }

@@ -9,6 +9,8 @@ function Final() {
   const navigate = useNavigate();
 
   const handleNext = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("customerId");
     navigate("/");
   };
   const handleNewTransaction = () => {
